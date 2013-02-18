@@ -25,12 +25,7 @@ public class MissileController : MonoBehaviour {
             Debug.Log(offset.x);
             Debug.Log(offset.y);
 
-            this.rigidbody.AddForce(this.transform.up - 
-                new Vector3(
-                offset.x / 100,
-                0.1f,
-                offset.y / 100),
-                ForceMode.Impulse);
+            this.rigidbody.AddForce(this.transform.up, ForceMode.Impulse);
         }
 
 	}
