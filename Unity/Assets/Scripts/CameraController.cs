@@ -15,8 +15,9 @@ public class CameraController : MonoBehaviour {
         //this.transform.LookAt(this.objectToFollow.transform);
         this.transform.position = new Vector3(
             this.objectToFollow.transform.position.x, 
-            this.objectToFollow.transform.position.y, 
-            this.objectToFollow.transform.position.z - 5
+            this.objectToFollow.transform.position.y + 8, 
+            this.objectToFollow.transform.position.z - 15
             );
 	}
+	
 }

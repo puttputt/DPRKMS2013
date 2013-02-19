@@ -1,32 +1,32 @@
 using UnityEngine;
 using System.Collections;
 
-public class EngineController : MonoBehaviour {
+public class EngineController : MonoBehaviour 
+{
 
-    [SerializeField]
-    private Light light;
+    private ParticleSystem[] particles;
 
-    [SerializeField]
-    private ParticleSystem fire;
-
-    [SerializeField]
-    private ParticleSystem exhaust;
-
-    void Start()
+    private void Start()
     {
+		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
     }
 
     public void play()
     {
         this.light.gameObject.SetActive(true);
-        this.exhaust.Play();
-        this.fire.Play();
+		foreach(ParticleSystem ps in this.particles)
+		{
+			Debug.Log(ps.name);
+			ps.Play();
+		}
     }
 
     public void stop()
     {
         this.light.gameObject.SetActive(false);
-        this.exhaust.Stop();
-        this.fire.Stop();
+        foreach(ParticleSystem ps in this.particles)
+		{
+			ps.Stop();
+		}
     }
 }

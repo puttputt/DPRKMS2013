@@ -9,12 +9,19 @@ public class MissileController : MonoBehaviour {
 
     private Vector2 mousePosFromCenter;
 	static bool begun=false;
-	void Start () {
+	
+	private ParticleSystem[] particles;
+	
+	private void Start () 
+	{
+		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
+		
 		//rigidbody.freezeRotation = true;
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	private void FixedUpdate () 
+	{
         if (Input.GetKeyDown(KeyCode.Space))
         {
             this.CenterMousePosition(); 
@@ -41,6 +48,19 @@ public class MissileController : MonoBehaviour {
 			Vector3 forcePos = new Vector3(0.0f,14.0f,0.0f);
 			rigidbody.AddRelativeForce(thrustStrength*thrustDir, ForceMode.Impulse);
 			rigidbody.AddRelativeTorque(torqueStrength*torqueDir, ForceMode.Impulse);
+			
+			foreach(ParticleSystem ps in this.particles)
+			{
+				if(ps.name == "EngineFire")
+				{
+					ps.Play();
+				}
+				else if (ps.name == "Exhaust")
+				{
+					ps.Play();	
+				}
+			}
+			
         }
 		
 		if(begun){
@@ -56,4 +76,25 @@ public class MissileController : MonoBehaviour {
         Screen.lockCursor = true;
         Screen.lockCursor = false;
     }
+	
+	private void DoThingsOnDistance()
+	{
+		float distance = Vector3.Distance(this.transform.position, new Vector3(0,0,0));
+		
+		if(distance > 100)
+		{
+			
+		}
+		
+	}
+	void OnCollisionEnter(Collision collision)
+	{
+		foreach(ParticleSystem ps in this.particles)
+		{
+			if(ps.name == "Nuke")
+			{
+				ps.Play();
+			}
+		}
+	}
 }
