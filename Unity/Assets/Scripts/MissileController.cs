@@ -5,8 +5,10 @@ public class MissileController : MonoBehaviour {
 
     private Vector2 mousePosFromCenter;
 
+    private EngineController engine;
+
 	void Start () {
-        
+        //this.engine = GetComponentInChildren<EngineController>();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +28,11 @@ public class MissileController : MonoBehaviour {
             Debug.Log(offset.y);
 
             this.rigidbody.AddForce(this.transform.up, ForceMode.Impulse);
+            //this.engine.play();
+        }
+        else
+        {
+            //this.engine.stop();
         }
 
 	}
