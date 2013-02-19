@@ -3,13 +3,14 @@ using System.Collections;
 
 public class MissileController : MonoBehaviour {
 	
-	const float rocketStrength=6;
-	const float gravConst=-1;
+	const float torqueStrength=20.0f;
+	const float thrustStrength=4.0f;
+	const float gravConst=-0.5f;
 
     private Vector2 mousePosFromCenter;
 	static bool begun=false;
 	void Start () {
-        
+		//rigidbody.freezeRotation = true;
 	}
 	
 	// Update is called once per frame
@@ -18,30 +19,33 @@ public class MissileController : MonoBehaviour {
         {
             this.CenterMousePosition(); 
         }
-        //Debug.Log("Mouse Pos, relative to center");
-        //Debug.Log(this.mouseXCenter - Input.mousePosition.x);
-        //Debug.Log(this.mouseYCenter - Input.mousePosition.y);
-		
-		
 		
         if (Input.GetKey(KeyCode.W))
         {
 			begun=true;
-            Vector2 offset = this.MouseOffset();
-
-			//Vector3 pos = new Vector3(0.0f,0.0f,0.0f);
-			Vector3 dir = new Vector3(offset.x,1.0f,offset.y);
-				
-			rigidbody.AddForce(rocketStrength*dir, ForceMode.Impulse);
 			
-			//this.rigidbody.AddRelativeForce(offset.x,1,offset.y, ForceMode.Impulse);
-            //this.rigidbody.AddForce(this.transform.up, ForceMode.Impulse);
+			Vector3 torqueDir = new Vector3();
+			Vector3 thrustDir = new Vector3();
+			thrustDir.y=1;
+			
+			
+			
+			if(Input.GetKey(KeyCode.LeftArrow)) torqueDir.z=1;		
+			else if(Input.GetKey(KeyCode.RightArrow)) torqueDir.z=-1;
+			else torqueDir.z=0;
+			
+			if(Input.GetKey(KeyCode.UpArrow)) torqueDir.x=1;			
+			else if(Input.GetKey(KeyCode.DownArrow)) torqueDir.x=-1;			
+			else torqueDir.x=0;
+			
+			Vector3 forcePos = new Vector3(0.0f,14.0f,0.0f);
+			rigidbody.AddRelativeForce(thrustStrength*thrustDir, ForceMode.Impulse);
+			rigidbody.AddRelativeTorque(torqueStrength*torqueDir, ForceMode.Impulse);
         }
 		
 		if(begun){
 			Vector3 rocket_pos = rigidbody.position;
 			Vector3 grav_dir = gravConst*(rigidbody.mass)*(rocket_pos)/rocket_pos.magnitude;
-			//Debug.Log("grav="+grav_dir);
 			rigidbody.AddForce(grav_dir, ForceMode.Impulse);
 		}
 
@@ -51,25 +55,5 @@ public class MissileController : MonoBehaviour {
     {
         Screen.lockCursor = true;
         Screen.lockCursor = false;
-    }
-
-    private Vector2 MouseOffset()
-    {
-        //return mouse offset between 0 and 1w
-        Vector2 mousepos = Input.mousePosition; 
-        
-        mousepos.x = (mousepos.x/( Screen.width/2)-1);
-		if(mousepos.x > 1)
-			mousepos.x=1;
-		if(mousepos.x <- 1)
-			mousepos.x=-1;
-		
-        mousepos.y = (mousepos.y/( Screen.height/2)-1);
-		if(mousepos.y > 1)
-			mousepos.y=1;
-		if(mousepos.y <- 1)
-			mousepos.y=-1;
-
-        return mousepos;
     }
 }
