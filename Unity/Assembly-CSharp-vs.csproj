@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\EngineController.cs" />
      <Compile Include="Assets\Scripts\MissileController.cs" />
+     <Compile Include="Assets\Scripts\MoonController.cs" />
      <None Include="Assets\Skybox\blend.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
