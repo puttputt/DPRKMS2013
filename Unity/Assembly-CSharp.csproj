@@ -52,7 +52,9 @@
      <Compile Include="Assets\Scripts\MissileController.cs" />
      <Compile Include="Assets\Scripts\MissileController2.cs" />
      <Compile Include="Assets\Scripts\MoonController.cs" />
+     <Compile Include="Assets\Scripts\RocketFollow.cs" />
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
+     <None Include="Assets\Scripts\brdfShader.shader" />
      <None Include="Assets\Skybox\blend.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

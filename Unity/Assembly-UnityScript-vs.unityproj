@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\SmoothFollow_Landon.js" />
+     <None Include="Assets\Scripts\brdfShader.shader" />
      <None Include="Assets\Skybox\blend.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
