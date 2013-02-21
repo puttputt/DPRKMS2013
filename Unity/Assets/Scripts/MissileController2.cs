@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MissileController : MonoBehaviour {
+public class MissileController2 : MonoBehaviour {
 	
 	const float torqueStrength=20.0f;
 	const float thrustStrength=4.0f;
