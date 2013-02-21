@@ -77,7 +77,7 @@ public class RocketFollow : MonoBehaviour
 		while (t < 1.0f) {
 			t += Time.deltaTime * (Time.timeScale / transitionTime);
 			this.transform.localPosition = Vector3.Lerp (this.transform.localPosition, newPosition, t);
-			this.transform.localRotation=Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(xrotation2,0,0), t);
+			this.transform.localRotation=Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(xrotation2,90,0), t);
 
 			yield return 0;
 		}	
