@@ -45,8 +45,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\CameraLee.cs" />
+     <Compile Include="Assets\Scripts\CameraLee2.cs" />
+     <Compile Include="Assets\Scripts\CameraLee3.cs" />
      <Compile Include="Assets\Scripts\EngineController.cs" />
      <Compile Include="Assets\Scripts\MissileController.cs" />
+     <Compile Include="Assets\Scripts\MissileController2.cs" />
      <Compile Include="Assets\Scripts\MoonController.cs" />
      <Compile Include="Assets\Scripts\RocketFollow.cs" />
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
