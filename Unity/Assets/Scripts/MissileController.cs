@@ -10,7 +10,7 @@ public class MissileController : MonoBehaviour {
     private Vector2 mousePosFromCenter;
 	private Vector3 totalTorque;
 	static bool begun=false;
-	public float fuel = 120000f;
+	public float fuel = 380000f;
 	public float gravity;
 	
 	private ParticleSystem[] particles;
