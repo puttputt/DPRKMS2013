@@ -165,8 +165,7 @@ public class Detonator : MonoBehaviour {
 	public bool autoCreateLight = true;
 	public bool autoCreateForce = true;
 	public bool autoCreateHeatwave = false;
-	public bool exploded=false;
-	
+
 	void Awake() 
 	{
 		FillDefaultMaterials();
@@ -273,8 +272,8 @@ public class Detonator : MonoBehaviour {
 	
 	void OnCollisionEnter(){
 		remove_rocket();
+		BroadcastMessage("zoomOut");
 		UpdateComponents();
-		exploded=true;
 		this.Explode();
 	}
 	
@@ -292,8 +291,8 @@ public class Detonator : MonoBehaviour {
 		if (explodeOnStart)
 		{
 			remove_rocket();
+			BroadcastMessage("zoomOut");
 			UpdateComponents();
-			exploded=true;
 			this.Explode();
 		}
 	}

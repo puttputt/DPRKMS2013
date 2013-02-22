@@ -15,12 +15,20 @@ public class RocketFollow : MonoBehaviour
 	public float zpos2;
 	public float xrotation2;
 	public float transitionTime = 100.0f;
+	private bool exploded = false;
 	// Use this for initialization
+	
+
 	void Start ()
 	{
 	
 	}
 	
+
+	void zoomOut(){
+		exploded=true;
+	}
+			
 	// Update is called once per frame
 	void LateUpdate ()
 	{
@@ -28,9 +36,14 @@ public class RocketFollow : MonoBehaviour
 		RocketPosition.y += heightMod;
 		float distanceFromOrigin = RocketPosition.magnitude;
 		//Debug.Log (distanceFromOrigin);
-
-
-		if (distanceFromOrigin < distanceToSurface) {
+		
+		if(exploded){
+			this.transform.position = new Vector3(0,0,-1500);
+			this.transform.LookAt( new Vector3(0.0f,0.0f,0.0f));
+			//this.transform.rotation = new Quaternion(0,0,0,0);
+		}
+		
+		else if(distanceFromOrigin < distanceToSurface) {
 			this.transform.localPosition = new Vector3 (
 	            xpos, 
 	            ypos, 
@@ -81,9 +94,5 @@ public class RocketFollow : MonoBehaviour
 			yield return 0;
 		}	
 	}
-	
-	void OnCollisionEnter(){
-		this.transform.position = new Vector3(0,0,-1500);
-		this.transform.rotation = new Quaternion(0,0,0,0);
-	}
+
 }
