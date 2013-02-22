@@ -24,12 +24,13 @@ public class CameraController : MonoBehaviour {
             this.objectToFollow.transform.rotation.y, 
             this.objectToFollow.transform.rotation.z
             );*/
-		
-		float smooth = 2.0f;
-		float tiltAngle = 30.0f;
+//		
+//		float smooth = 2.0f;
+//		float tiltAngle = 30.0f;
 //	    float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
 //	    float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
 		Quaternion cam_rot = this.objectToFollow.transform.rotation;
+		cam_rot.x = 0;
 		//cam_rot.z=0;
 		// Dampen towards the target rotation
 	    //this.transform.rotation = Quaternion.Euler (tiltAroundX, tiltAroundY, tiltAroundZ);

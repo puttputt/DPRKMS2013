@@ -1,14 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class MissileController : MonoBehaviour {
+public class MissileController2 : MonoBehaviour {
 	
-	const float torqueStrength=5.0f;
+	const float torqueStrength=20.0f;
 	const float thrustStrength=4.0f;
 	const float gravConst=-0.5f;
 
     private Vector2 mousePosFromCenter;
-	private Vector3 totalTorque;
 	static bool begun=false;
 	
 	private ParticleSystem[] particles;
@@ -19,6 +18,7 @@ public class MissileController : MonoBehaviour {
 		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 	}
 	
+	// Update is called once per frame
 	private void FixedUpdate () 
 	{
         if (Input.GetKeyDown(KeyCode.Space))
@@ -30,8 +30,22 @@ public class MissileController : MonoBehaviour {
         {
 			begun=true;
 			
-			this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Impulse);
+			Vector3 torqueDir = new Vector3();
+			Vector3 thrustDir = new Vector3();
+			thrustDir.y=1;			
 			
+			if(Input.GetKey(KeyCode.LeftArrow)) torqueDir.x=1;		
+			else if(Input.GetKey(KeyCode.RightArrow)) torqueDir.x=-1;
+			else torqueDir.x=0;
+			
+			if(Input.GetKey(KeyCode.UpArrow)) torqueDir.z=-1;			
+			else if(Input.GetKey(KeyCode.DownArrow)) torqueDir.z=1;			
+			else torqueDir.z=0;
+			
+			Vector3 forcePos = new Vector3(0.0f,14.0f,0.0f);
+			rigidbody.AddRelativeForce(thrustStrength*thrustDir, ForceMode.Impulse);
+			rigidbody.AddRelativeTorque(torqueStrength*torqueDir, ForceMode.Impulse);
+						
 			foreach(ParticleSystem ps in this.particles)
 			{
 				if(ps.name == "EngineFire")
@@ -46,48 +60,11 @@ public class MissileController : MonoBehaviour {
 			
         }
 		
-		Vector3 torqueDir = new Vector3();
-		if(Input.GetKey(KeyCode.LeftArrow))
-		{
-			torqueDir.x=1;		
-		}
-		else if(Input.GetKey(KeyCode.RightArrow)) 
-		{
-			torqueDir.x=-1;
-		}
-		else 
-		{
-			torqueDir.x=0;
-		}
-			
-		if(Input.GetKey(KeyCode.UpArrow)) 
-		{
-			torqueDir.z=-1;			
-		}
-		else if(Input.GetKey(KeyCode.DownArrow)) 
-		{
-			torqueDir.z=1;			
-		}
-		else
-		{
-			torqueDir.z=0;
-		}
-		
-		this.totalTorque += torqueDir;
-		this.AccelerateTorque();
-		
-		if(begun)
-		{
-			Vector3 rocket_pos = rigidbody.position;
-			Vector3 grav_dir = gravConst*(rigidbody.mass)*(rocket_pos)/rocket_pos.magnitude;
+		if(begun){
+			Vector3 grav_dir = gravConst*(rigidbody.mass)*(rigidbody.position)/rigidbody.position.magnitude;
 			rigidbody.AddForce(grav_dir, ForceMode.Impulse);
 		}
 
-	}
-	
-	private void AccelerateTorque()
-	{
-		this.rigidbody.AddRelativeTorque(this.totalTorque * torqueStrength, ForceMode.Force);
 	}
 
     private void CenterMousePosition()
@@ -115,5 +92,9 @@ public class MissileController : MonoBehaviour {
 				ps.Play();
 			}
 		}
+	}
+	
+	private void OnGUI(){
+    	GUI.Button(new Rect(5,5,150,50),"Altitude = " + rigidbody.position.magnitude);
 	}
 }
