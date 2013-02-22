@@ -25,6 +25,7 @@ ModelImporter:
     100038: ID92
     100040: ID98
     100042: //RootNode
+    100044: ID146
     400000: ID10
     400002: ID104
     400004: ID110
@@ -47,6 +48,7 @@ ModelImporter:
     400038: ID92
     400040: ID98
     400042: //RootNode
+    400044: ID146
     2300000: ID10
     2300002: ID104
     2300004: ID110
@@ -69,6 +71,7 @@ ModelImporter:
     2300038: ID92
     2300040: ID98
     2300042: //RootNode
+    2300044: ID146
     3300000: ID10
     3300002: ID104
     3300004: ID110
@@ -91,6 +94,7 @@ ModelImporter:
     3300038: ID92
     3300040: ID98
     3300042: //RootNode
+    3300044: ID146
     4300000: SketchUp
     4300002: ID10
     4300004: ID18
@@ -113,6 +117,7 @@ ModelImporter:
     4300038: ID128
     4300040: ID134
     4300042: ID140
+    4300044: ID146
     9500000: //RootNode
   materials:
     importMaterials: 1
