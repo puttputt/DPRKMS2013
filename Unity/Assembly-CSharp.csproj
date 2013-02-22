@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\CameraLee3.cs" />
      <Compile Include="Assets\Scripts\EngineController.cs" />
      <Compile Include="Assets\Scripts\FinLauncher.cs" />
+     <Compile Include="Assets\Scripts\GUIController.cs" />
      <Compile Include="Assets\Scripts\MissileController.cs" />
      <Compile Include="Assets\Scripts\MissileController2.cs" />
      <Compile Include="Assets\Scripts\MoonController.cs" />

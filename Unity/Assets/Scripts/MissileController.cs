@@ -4,12 +4,14 @@ using System.Collections;
 public class MissileController : MonoBehaviour {
 	
 	const float torqueStrength=5.0f;
-	const float thrustStrength=4.0f;
-	const float gravConst=-0.5f;
+	const float thrustStrength=35.0f;
+	const float gravConst=-10f;
 
     private Vector2 mousePosFromCenter;
 	private Vector3 totalTorque;
 	static bool begun=false;
+	public float fuel = 120000f;
+	public float gravity;
 	
 	private ParticleSystem[] particles;
 	
@@ -29,6 +31,7 @@ public class MissileController : MonoBehaviour {
 		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 	}
 	
+	
 	private void FixedUpdate () 
 	{
         if (Input.GetKeyDown(KeyCode.Space))
@@ -36,12 +39,16 @@ public class MissileController : MonoBehaviour {
             this.CenterMousePosition(); 
         }
 		
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && this.fuel > 0)
         {
 			begun=true;
 			
-			this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Impulse);
-			
+			this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Acceleration);
+			this.fuel -= 52.21f;
+			if(this.fuel < 0)
+			{
+				this.fuel = 0;
+			}
 			this.EnginePlay();
 			
         }
@@ -82,11 +89,19 @@ public class MissileController : MonoBehaviour {
 		
 		if(begun)
 		{
+			
 			Vector3 rocket_pos = this.transform.position;
+			if(rocket_pos.magnitude < 450)
+				this.gravity = gravConst;
+			else
+				this.gravity = gravConst / (float)System.Math.Pow(rocket_pos.magnitude,0.75);
+			
 			Vector3 grav_dir = new Vector3(0.0f, 0.0f, 0.0f);
 			if(rocket_pos.magnitude !=0)
-				grav_dir = gravConst*(rigidbody.mass)*(rocket_pos)/rocket_pos.magnitude;
-			rigidbody.AddForce(grav_dir, ForceMode.Impulse);
+				grav_dir = this.gravity*rocket_pos.normalized;
+			Debug.Log("grav " + this.gravity);
+			rigidbody.AddForce(grav_dir, ForceMode.Acceleration);
+			Debug.Log(grav_dir);
 		}
 		
 		if(Input.GetKey(KeyCode.Z))
@@ -125,6 +140,11 @@ public class MissileController : MonoBehaviour {
 		
 	}
 	
+	public float GetDistance()
+	{
+		return Vector3.Distance(this.transform.position, new Vector3(0,0,0));
+	}
+		
 	public void EnginePlay()
 	{
 		foreach(ParticleSystem ps in this.particles)
