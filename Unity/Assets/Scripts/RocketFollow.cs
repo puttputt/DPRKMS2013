@@ -68,7 +68,6 @@ public class RocketFollow : MonoBehaviour
 	IEnumerator Transition ()
 	{
 		float t = 0.0f;
-		Vector3 startingPos = transform.position;
 		Vector3 newPosition = new Vector3 (
 	            xpos2, 
 	            ypos2, 
@@ -81,5 +80,10 @@ public class RocketFollow : MonoBehaviour
 
 			yield return 0;
 		}	
+	}
+	
+	void OnCollisionEnter(){
+		this.transform.position = new Vector3(0,0,-1500);
+		this.transform.rotation = new Quaternion(0,0,0,0);
 	}
 }

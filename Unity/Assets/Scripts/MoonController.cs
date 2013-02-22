@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class MoonController : MonoBehaviour {
-	
+	[SerializeField]
 	float Earth_to_Moon = 1500;
+	[SerializeField]
 	float moon_speed = 100;
 	// Use this for initialization
 	void Start () {
@@ -21,7 +22,10 @@ public class MoonController : MonoBehaviour {
 		Vector3 moon_pos = rigidbody.position;
 		Vector3 accel = - rigidbody.velocity.sqrMagnitude/(moon_pos.sqrMagnitude)*moon_pos;
 		
-		rigidbody.AddForce(accel, ForceMode.Acceleration);
+		rigidbody.AddForce(accel, ForceMode.Acceleration);	
+	}
 	
+	void OnCollisionEnter(){
+		Destroy(gameObject);
 	}
 }
