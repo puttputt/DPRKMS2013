@@ -61,8 +61,7 @@ public class MissileController2 : MonoBehaviour {
         }
 		
 		if(begun){
-			Vector3 rocket_pos = rigidbody.position;
-			Vector3 grav_dir = gravConst*(rigidbody.mass)*(rocket_pos)/rocket_pos.magnitude;
+			Vector3 grav_dir = gravConst*(rigidbody.mass)*(rigidbody.position)/rigidbody.position.magnitude;
 			rigidbody.AddForce(grav_dir, ForceMode.Impulse);
 		}
 
@@ -93,5 +92,9 @@ public class MissileController2 : MonoBehaviour {
 				ps.Play();
 			}
 		}
+	}
+	
+	private void OnGUI(){
+    	GUI.Button(new Rect(5,5,150,50),"Altitude = " + rigidbody.position.magnitude);
 	}
 }

@@ -27,7 +27,7 @@ public class RocketFollow : MonoBehaviour
 		Vector3 RocketPosition = this.transform.parent.transform.position;
 		RocketPosition.y += heightMod;
 		float distanceFromOrigin = RocketPosition.magnitude;
-		Debug.Log (distanceFromOrigin);
+		//Debug.Log (distanceFromOrigin);
 
 
 		if (distanceFromOrigin < distanceToSurface) {
