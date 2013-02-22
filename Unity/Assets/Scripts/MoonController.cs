@@ -22,8 +22,7 @@ public class MoonController : MonoBehaviour {
 		Vector3 moon_pos = rigidbody.position;
 		Vector3 accel = - rigidbody.velocity.sqrMagnitude/(moon_pos.sqrMagnitude)*moon_pos;
 		
-		rigidbody.AddForce(accel, ForceMode.Acceleration);
-	
+		rigidbody.AddForce(accel, ForceMode.Acceleration);	
 	}
 	
 	void OnCollisionEnter(){

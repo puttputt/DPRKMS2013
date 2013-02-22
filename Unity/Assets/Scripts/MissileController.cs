@@ -155,16 +155,16 @@ public class MissileController : MonoBehaviour {
 			}	
 	}
 	
-	void OnCollisionEnter(Collision collision)
-	{
-		foreach(ParticleSystem ps in this.particles)
-		{
-			if(ps.name == "Nuke")
-			{
-				ps.Play();
-			}
-		}
-	}
+//	void OnCollisionEnter(Collision collision)
+//	{
+//		foreach(ParticleSystem ps in this.particles)
+//		{
+//			if(ps.name == "Nuke")
+//			{
+//				ps.Play();
+//			}
+//		}
+//	}
 	
 	void LaunchFin(int id, FinLauncher fin)
 	{
