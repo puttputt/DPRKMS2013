@@ -81,4 +81,9 @@ public class RocketFollow : MonoBehaviour
 			yield return 0;
 		}	
 	}
+	
+	void OnCollisionEnter(){
+		this.transform.position = new Vector3(0,0,-1500);
+		this.transform.rotation = new Quaternion(0,0,0,0);
+	}
 }
