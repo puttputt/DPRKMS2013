@@ -99,9 +99,8 @@ public class MissileController : MonoBehaviour {
 			Vector3 grav_dir = new Vector3(0.0f, 0.0f, 0.0f);
 			if(rocket_pos.magnitude !=0)
 				grav_dir = this.gravity*rocket_pos.normalized;
-			Debug.Log("grav " + this.gravity);
+
 			rigidbody.AddForce(grav_dir, ForceMode.Acceleration);
-			Debug.Log(grav_dir);
 		}
 		
 		if(Input.GetKey(KeyCode.Z))
