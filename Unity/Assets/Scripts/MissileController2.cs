@@ -42,7 +42,6 @@ public class MissileController2 : MonoBehaviour {
 			else if(Input.GetKey(KeyCode.DownArrow)) torqueDir.z=1;			
 			else torqueDir.z=0;
 			
-			Vector3 forcePos = new Vector3(0.0f,14.0f,0.0f);
 			rigidbody.AddRelativeForce(thrustStrength*thrustDir, ForceMode.Impulse);
 			rigidbody.AddRelativeTorque(torqueStrength*torqueDir, ForceMode.Impulse);
 						

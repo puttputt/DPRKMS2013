@@ -16,6 +16,9 @@ public class RocketFollow : MonoBehaviour
 	public float xrotation2;
 	public float transitionTime = 100.0f;
 	private bool exploded = false;
+	
+	private Vector3 final_cam_pos;
+	private Vector3 final_rocket_pos;
 	// Use this for initialization
 	
 
@@ -25,7 +28,12 @@ public class RocketFollow : MonoBehaviour
 	}
 	
 
-	void zoomOut(){
+	void contact(){
+		final_rocket_pos = this.transform.parent.transform.position;
+		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*6000;
+		
+		Debug.Log("final rocket = " + final_rocket_pos);
+		Debug.Log("final cam = " + final_cam_pos);
 		exploded=true;
 	}
 			
@@ -38,8 +46,8 @@ public class RocketFollow : MonoBehaviour
 		//Debug.Log (distanceFromOrigin);
 		
 		if(exploded){
-			this.transform.position = new Vector3(0,0,-1500);
-			this.transform.LookAt( new Vector3(0.0f,0.0f,0.0f));
+			this.transform.position = final_cam_pos;
+			this.transform.LookAt(final_rocket_pos);
 			//this.transform.rotation = new Quaternion(0,0,0,0);
 		}
 		

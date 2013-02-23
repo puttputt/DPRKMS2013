@@ -272,7 +272,7 @@ public class Detonator : MonoBehaviour {
 	
 	void OnCollisionEnter(){
 		remove_rocket();
-		BroadcastMessage("zoomOut");
+		BroadcastMessage("contact");
 		UpdateComponents();
 		this.Explode();
 	}
@@ -280,7 +280,7 @@ public class Detonator : MonoBehaviour {
 	void remove_rocket(){
 		Transform[] obs = this.gameObject.GetComponentsInChildren<Transform>();
 			foreach(Transform t in obs){
-				if(t.name!="Rocket" && t.name!="Engine" && t.name!="Main Camera"){
+				if(t.name!="Rocket" && t.name!="Main Camera"){
 				t.renderer.enabled=false;
 				}
 		}
@@ -291,7 +291,7 @@ public class Detonator : MonoBehaviour {
 		if (explodeOnStart)
 		{
 			remove_rocket();
-			BroadcastMessage("zoomOut");
+			BroadcastMessage("contact");
 			UpdateComponents();
 			this.Explode();
 		}
