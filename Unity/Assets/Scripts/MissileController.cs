@@ -12,6 +12,7 @@ public class MissileController : MonoBehaviour {
 	static bool begun=false;
 	public float fuel = 380000f;
 	public float gravity;
+	private bool fixtureMove = false;
 	
 	private ParticleSystem[] particles;
 	
@@ -21,6 +22,10 @@ public class MissileController : MonoBehaviour {
 	private GameObject finTwo;
 	[SerializeField]
 	private GameObject finThree;
+	[SerializeField]
+	private ParticleSystem siloExhaust;
+	[SerializeField]
+	private Animation[] fixtures;
 	
 	private FixedJoint[] joints;
 	
@@ -51,7 +56,23 @@ public class MissileController : MonoBehaviour {
 			}
 			this.EnginePlay();
 			
+			if(this.transform.position.magnitude > 100)
+			{
+				this.siloExhaust.Stop();	
+			}
+			else
+			{
+				this.siloExhaust.Play();
+			}
+			
+			if(this.fixtureMove == false)
+			{
+				this.fixtureMove = true;
+				this.openFixtures();
+			}
+			
         }
+        
 		else
 		{
 			this.EngineStop();	
@@ -117,6 +138,14 @@ public class MissileController : MonoBehaviour {
 		}
 	}
 	
+	private void openFixtures()
+	{
+		foreach(Animation fixture in this.fixtures)
+		{
+			fixture.animation.Play();
+		}	
+	}
+	
 	private void AccelerateTorque()
 	{
 		this.rigidbody.AddRelativeTorque(this.totalTorque * torqueStrength, ForceMode.Force);
@@ -130,7 +159,7 @@ public class MissileController : MonoBehaviour {
 	
 	private void DoThingsOnDistance()
 	{
-		float distance = Vector3.Distance(this.transform.position, new Vector3(0,0,0));
+		float distance = this.transform.position.magnitude;
 		Debug.Log(distance);
 		if(distance > 100)
 		{
@@ -138,6 +167,7 @@ public class MissileController : MonoBehaviour {
 		}
 		
 	}
+
 	
 	public float GetDistance()
 	{
