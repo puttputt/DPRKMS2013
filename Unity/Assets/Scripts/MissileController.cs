@@ -114,7 +114,7 @@ public class MissileController : MonoBehaviour {
 			Vector3 rocket_pos = this.transform.position;
 			if(rocket_pos.magnitude < 450)
 				this.gravity = gravConst;
-			else if (rocket_pos.magnitude > 450 && rocket_pos.magnitude < 2500)				
+			else if (rocket_pos.magnitude > 450 && rocket_pos.magnitude < 2950)				
 				this.gravity = gravConst * (2950-rocket_pos.magnitude)/2950;
 			else
 				this.gravity = 0;
