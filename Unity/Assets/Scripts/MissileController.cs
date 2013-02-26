@@ -5,7 +5,7 @@ public class MissileController : MonoBehaviour {
 	
 	const float torqueStrength=5.0f;
 	const float thrustStrength=35.0f;
-	const float gravConst=-10f;
+	const float gravConst=-20f;
 
     private Vector2 mousePosFromCenter;
 	private Vector3 totalTorque;
@@ -114,8 +114,10 @@ public class MissileController : MonoBehaviour {
 			Vector3 rocket_pos = this.transform.position;
 			if(rocket_pos.magnitude < 450)
 				this.gravity = gravConst;
+			else if (rocket_pos.magnitude > 450 && rocket_pos.magnitude < 2500)				
+				this.gravity = gravConst * (2950-rocket_pos.magnitude)/2950;
 			else
-				this.gravity = gravConst / (float)System.Math.Pow(rocket_pos.magnitude,0.75);
+				this.gravity = 0;
 			
 			Vector3 grav_dir = new Vector3(0.0f, 0.0f, 0.0f);
 			if(rocket_pos.magnitude !=0)
