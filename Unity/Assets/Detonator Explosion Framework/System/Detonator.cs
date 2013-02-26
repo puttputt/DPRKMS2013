@@ -272,7 +272,7 @@ public class Detonator : MonoBehaviour {
 	
 	void OnCollisionEnter(){
 		remove_rocket();
-		BroadcastMessage("contact");
+		BroadcastMessage("contact");		
 		UpdateComponents();
 		this.Explode();
 	}

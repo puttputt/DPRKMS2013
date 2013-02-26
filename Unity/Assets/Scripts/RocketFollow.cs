@@ -30,11 +30,14 @@ public class RocketFollow : MonoBehaviour
 
 	void contact(){
 		final_rocket_pos = this.transform.parent.transform.position;
-		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*6000;
+		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*4000+final_rocket_pos*2;
 		
 		Debug.Log("final rocket = " + final_rocket_pos);
 		Debug.Log("final cam = " + final_cam_pos);
 		exploded=true;
+		
+		Vector3 firewrkPos = final_rocket_pos.normalized * 500;
+		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
 	}
 			
 	// Update is called once per frame
@@ -47,7 +50,7 @@ public class RocketFollow : MonoBehaviour
 		
 		if(exploded){
 			this.transform.position = final_cam_pos;
-			this.transform.LookAt(final_rocket_pos);
+			this.transform.LookAt(final_rocket_pos/2);
 			//this.transform.rotation = new Quaternion(0,0,0,0);
 		}
 		
@@ -61,28 +64,6 @@ public class RocketFollow : MonoBehaviour
 		
 		} else {
 			StartCoroutine (Transition ());
-			/*
-			//if (distanceFromOrigin < (distanceToSurface + transitionTime*2.0f)) {
-			Vector3 newPosition = new Vector3 (
-	            xpos2, 
-	            ypos2, 
-	            zpos2 
-	            );
-			Vector3 cameraPanDelta = (this.transform.localPosition - newPosition) / transitionTime;
-			this.transform.localPosition -= cameraPanDelta;
-			
-			float newRotation = ((this.transform.localRotation.x - xrotation2) / transitionTime);
-			this.transform.localRotation = Quaternion.Euler (this.transform.localRotation.eulerAngles.x - newRotation, this.transform.localRotation.eulerAngles.y, this.transform.localRotation.eulerAngles.z);
-			*/
-			/*} else {
-				this.transform.localPosition = new Vector3 (
-	            xpos2, 
-	            ypos2, 
-	            zpos2 
-	            );
-				this.transform.localRotation = Quaternion.Euler (xrotation2, this.transform.localRotation.eulerAngles.y, this.transform.localRotation.eulerAngles.z);
-				Debug.Log ("hay");
-			}*/
 		}
 	}
 	
