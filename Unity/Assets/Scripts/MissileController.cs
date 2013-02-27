@@ -4,7 +4,7 @@ using System.Collections;
 public class MissileController : MonoBehaviour {
 	
 	const float torqueStrength=5.0f;
-	const float thrustStrength=35.0f;
+	const float thrustStrength=40.0f;
 	const float gravConst=-20f;
 
     private Vector2 mousePosFromCenter;
@@ -47,7 +47,7 @@ public class MissileController : MonoBehaviour {
         if (Input.GetKey(KeyCode.W) && this.fuel > 0)
         {
 			begun=true;
-			
+			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=true;
 			this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Acceleration);
 			this.fuel -= 52.21f;
 			if(this.fuel < 0)
@@ -75,7 +75,9 @@ public class MissileController : MonoBehaviour {
         
 		else
 		{
+			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=false;
 			this.EngineStop();	
+
 		}
 		
 		Vector3 torqueDir = new Vector3();

@@ -16,15 +16,19 @@ public class RocketFollow : MonoBehaviour
 	public float xrotation2;
 	public float transitionTime = 100.0f;
 	private bool exploded = false;
-	
+	public float shakinessIn=0.2f;
+	public float shakinessOut=0.0f;
 	private Vector3 final_cam_pos;
 	private Vector3 final_rocket_pos;
+	public bool shakey;
+	private bool hasExitedSilo;
 	// Use this for initialization
 	
 
 	void Start ()
 	{
-	
+		shakey=false;
+		hasExitedSilo=false;
 	}
 	
 
@@ -54,15 +58,27 @@ public class RocketFollow : MonoBehaviour
 			//this.transform.rotation = new Quaternion(0,0,0,0);
 		}
 		
-		else if(distanceFromOrigin < distanceToSurface) {
+		else if(distanceFromOrigin < distanceToSurface &&!hasExitedSilo) {
 			this.transform.localPosition = new Vector3 (
 	            xpos, 
 	            ypos, 
 	            zpos
 	            );
-			this.transform.localRotation = Quaternion.Euler (xrotation, this.transform.localRotation.eulerAngles.y, this.transform.localRotation.eulerAngles.z);
+			float t = 0.0f;
+			while (t < 1.0f) {
+				t += Time.deltaTime * (Time.timeScale / transitionTime);
+				Quaternion rot = Quaternion.Euler(xrotation, 
+									this.transform.localRotation.eulerAngles.y, 
+									this.transform.localRotation.eulerAngles.z);			
+				if(shakey)
+					rot = Quaternion.Euler(xrotation+Random.Range(-shakinessIn, shakinessIn),
+											90+Random.Range(-shakinessIn, shakinessIn),
+											Random.Range(-shakinessIn, shakinessIn));
+				this.transform.localRotation=Quaternion.Lerp(this.transform.localRotation, rot, t);
+			}
 		
 		} else {
+			hasExitedSilo=true;
 			StartCoroutine (Transition ());
 		}
 	}
@@ -78,10 +94,19 @@ public class RocketFollow : MonoBehaviour
 		while (t < 1.0f) {
 			t += Time.deltaTime * (Time.timeScale / transitionTime);
 			this.transform.localPosition = Vector3.Lerp (this.transform.localPosition, newPosition, t);
-			this.transform.localRotation=Quaternion.Lerp(this.transform.localRotation, Quaternion.Euler(xrotation2,90,0), t);
+			
+			Quaternion rot = Quaternion.Euler(xrotation2,90,0);			
+			if(shakey)
+				rot = Quaternion.Euler(xrotation2+Random.Range(-shakinessOut, shakinessOut),
+										90+Random.Range(-shakinessOut, shakinessOut),
+										0+Random.Range(-shakinessOut, shakinessOut));
+			
 
+			
+			this.transform.localRotation=Quaternion.Lerp(this.transform.localRotation, rot, t);
 			yield return 0;
 		}	
 	}
-
+	
+	
 }
