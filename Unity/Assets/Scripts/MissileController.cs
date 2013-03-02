@@ -163,7 +163,7 @@ public class MissileController : MonoBehaviour {
 	private void DoThingsOnDistance()
 	{
 		float distance = this.transform.position.magnitude;
-		Debug.Log(distance);
+		//Debug.Log(distance);
 		if(distance > 25 && this.finsLaunched == 0)
 		{
 			this.LaunchFin(0, this.finOne.GetComponent<FinLauncher>());

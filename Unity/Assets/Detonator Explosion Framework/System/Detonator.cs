@@ -270,11 +270,22 @@ public class Detonator : MonoBehaviour {
 		if (!heatwaveMaterial) heatwaveMaterial = DefaultHeatwaveMaterial();
 	}
 	
-	void OnCollisionEnter(){
-		remove_rocket();
-		BroadcastMessage("contact");		
-		UpdateComponents();
-		this.Explode();
+	void OnCollisionEnter(Collider c)
+	{
+		if(c.tag == "moon")
+		{
+			remove_rocket();
+			BroadcastMessage("contact");		
+			UpdateComponents();
+			this.Explode();
+		}
+		else if(c.tag == "silo" || c.tag == "world")
+		{
+			remove_rocket();
+			UpdateComponents();
+			this.Explode();
+		}
+		
 	}
 	
 	void remove_rocket(){
