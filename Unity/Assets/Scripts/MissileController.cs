@@ -13,6 +13,7 @@ public class MissileController : MonoBehaviour {
 	public float fuel = 380000f;
 	public float gravity;
 	private bool fixtureMove = false;
+	private float engineStartupTime = 2.5f;
 	
 	private ParticleSystem[] particles;
 	
@@ -27,6 +28,13 @@ public class MissileController : MonoBehaviour {
 	[SerializeField]
 	private Animation[] fixtures;
 	
+	[SerializeField]
+	private AudioSource rocketSound;
+	[SerializeField]
+	private AudioSource finFallSound;
+	[SerializeField]
+	private AudioSource FixtureReleaseSound;
+	
 	private int finsLaunched = 0;
 	private FixedJoint[] joints;
 	public Light rocketLight;
@@ -40,17 +48,12 @@ public class MissileController : MonoBehaviour {
 	
 	private void FixedUpdate () 
 	{
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            this.CenterMousePosition(); 
-        }
-		
+     	
         if (Input.GetKey(KeyCode.W) && this.fuel > 0)
         {
-			begun=true;
-			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=true;
-			this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Acceleration);
-			this.fuel -= 52.21f;
+			this.engineStartupTime -= Time.deltaTime;
+			
+			
 			if(this.fuel < 0)
 			{
 				this.fuel = 0;
@@ -65,12 +68,19 @@ public class MissileController : MonoBehaviour {
 			{
 				this.siloExhaust.Play();
 			}
-			
-			if(this.fixtureMove == false)
+			if(this.engineStartupTime <= 0)
 			{
-				this.fixtureMove = true;
-				this.openFixtures();
+				if(this.fixtureMove == false)
+				{
+					this.fixtureMove = true;
+					this.openFixtures();
+				}
+				begun=true;
+				GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=true;
+				this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Acceleration);
+				this.fuel -= 52.21f;
 			}
+			
 			
         }
         
@@ -78,7 +88,7 @@ public class MissileController : MonoBehaviour {
 		{
 			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=false;
 			this.EngineStop();	
-
+			this.siloExhaust.Stop();
 		}
 		
 		Vector3 torqueDir = new Vector3();
@@ -146,7 +156,8 @@ public class MissileController : MonoBehaviour {
 		foreach(Animation fixture in this.fixtures)
 		{
 			fixture.animation.Play();
-		}	
+		}
+		this.FixtureReleaseSound.Play();
 	}
 	
 	private void AccelerateTorque()
@@ -201,6 +212,16 @@ public class MissileController : MonoBehaviour {
 					ps.Play();	
 				}
 			}
+		if(this.transform.position.magnitude < 500)
+		{
+			
+			if(!this.rocketSound.isPlaying )
+				this.rocketSound.Play();
+		}
+		else
+		{
+			this.rocketSound.Stop();
+		}
 		rocketLight.enabled = true;
 	}
 	
@@ -217,6 +238,7 @@ public class MissileController : MonoBehaviour {
 					ps.Stop();	
 				}
 			}
+		this.rocketSound.Stop();
 		rocketLight.enabled = false;
 	}
 	
@@ -233,6 +255,7 @@ public class MissileController : MonoBehaviour {
 	
 	void LaunchFin(int id, FinLauncher fin)
 	{
+		this.finFallSound.Play();
 		Destroy(this.joints[id]);
 		fin.launch(this.rigidbody);
 	}

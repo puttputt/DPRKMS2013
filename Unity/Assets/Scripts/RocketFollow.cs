@@ -24,6 +24,11 @@ public class RocketFollow : MonoBehaviour
 	private bool hasExitedSilo;
 	// Use this for initialization
 	
+	[SerializeField]
+	private GameObject credits;
+	
+	[SerializeField]
+	private AudioSource anthem;
 
 	void Start ()
 	{
@@ -42,6 +47,9 @@ public class RocketFollow : MonoBehaviour
 		
 		Vector3 firewrkPos = final_rocket_pos.normalized * 500;
 		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
+		
+		this.credits.SetActive(true);
+		this.anthem.Play();
 	}
 			
 	// Update is called once per frame

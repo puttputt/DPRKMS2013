@@ -15,7 +15,7 @@ public class RedLightScript : MonoBehaviour {
 			
 			GameObject rocket = GameObject.Find("Rocket");
 		
-			if(rocket.transform.position.y > 475)
+			if(rocket.transform.position.y > 455)
 			{
 				this.light.intensity-=0.01f;
 			}
