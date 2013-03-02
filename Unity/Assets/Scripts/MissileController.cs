@@ -27,6 +27,7 @@ public class MissileController : MonoBehaviour {
 	[SerializeField]
 	private Animation[] fixtures;
 	
+	private int finsLaunched = 0;
 	private FixedJoint[] joints;
 	public Light rocketLight;
 	private void Start () 
@@ -107,6 +108,15 @@ public class MissileController : MonoBehaviour {
 			torqueDir.z=0;
 		}
 		
+		if(this.finsLaunched == 1)
+		{
+			torqueDir.x -= 0.2f;
+		}
+		else if(this.finsLaunched == 2)
+		{
+			torqueDir.z -= 0.2f;	
+		}
+		
 		this.totalTorque += torqueDir;
 		this.AccelerateTorque();
 		
@@ -128,18 +138,7 @@ public class MissileController : MonoBehaviour {
 			rigidbody.AddForce(grav_dir, ForceMode.Acceleration);
 		}
 		
-		if(Input.GetKey(KeyCode.Z))
-		{
-			this.LaunchFin(0, this.finOne.GetComponent<FinLauncher>());
-		}
-		else if(Input.GetKey(KeyCode.X))
-		{
-			this.LaunchFin(1, this.finTwo.GetComponent<FinLauncher>());
-		}
-		else if(Input.GetKey(KeyCode.C))
-		{
-			this.LaunchFin(2, this.finThree.GetComponent<FinLauncher>());
-		}
+		DoThingsOnDistance();
 	}
 	
 	private void openFixtures()
@@ -165,9 +164,20 @@ public class MissileController : MonoBehaviour {
 	{
 		float distance = this.transform.position.magnitude;
 		Debug.Log(distance);
-		if(distance > 100)
+		if(distance > 25 && this.finsLaunched == 0)
 		{
-			
+			this.LaunchFin(0, this.finOne.GetComponent<FinLauncher>());
+			this.finsLaunched = 1;
+		}
+		else if(distance > 100 && this.finsLaunched == 1)
+		{
+			this.LaunchFin(2, this.finThree.GetComponent<FinLauncher>());
+			this.finsLaunched = 2;
+		}
+		else if (distance > 150 && this.finsLaunched == 2)
+		{
+			this.LaunchFin(1, this.finTwo.GetComponent<FinLauncher>());
+			this.finsLaunched = 3;
 		}
 		
 	}
