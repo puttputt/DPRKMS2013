@@ -9,7 +9,16 @@ public class RedLightScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 spin = new Vector3(0, 5, 0);
-		this.transform.Rotate(spin);
+		if(this.light.intensity > 0){
+			Vector3 spin = new Vector3(0, 5, 0);
+			this.transform.Rotate(spin);
+			
+			GameObject rocket = GameObject.Find("Rocket");
+		
+			if(rocket.transform.position.y > 475)
+			{
+				this.light.intensity-=0.01f;
+			}
+		}
 	}
 }

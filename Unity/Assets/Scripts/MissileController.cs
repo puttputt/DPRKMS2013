@@ -28,7 +28,7 @@ public class MissileController : MonoBehaviour {
 	private Animation[] fixtures;
 	
 	private FixedJoint[] joints;
-	
+	public Light rocketLight;
 	private void Start () 
 	{
 		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
@@ -190,7 +190,8 @@ public class MissileController : MonoBehaviour {
 				{
 					ps.Play();	
 				}
-			}	
+			}
+		rocketLight.enabled = true;
 	}
 	
 	public void EngineStop()
@@ -205,7 +206,8 @@ public class MissileController : MonoBehaviour {
 				{
 					ps.Stop();	
 				}
-			}	
+			}
+		rocketLight.enabled = false;
 	}
 	
 //	void OnCollisionEnter(Collision collision)
