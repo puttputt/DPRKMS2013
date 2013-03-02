@@ -32,6 +32,7 @@ public class FinLauncher : MonoBehaviour {
 		if(!this.launched)
 		{
 			this.totalTorque += this.transform.right * 10;
+			this.rigidbody.AddForce(this.rigidbody.transform.right * 5, ForceMode.Impulse);
 			this.launched = true;
 		}
 	}
