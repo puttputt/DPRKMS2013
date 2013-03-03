@@ -48,7 +48,7 @@ public class RocketFollow : MonoBehaviour
 		Vector3 firewrkPos = final_rocket_pos.normalized * 500;
 		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
 		
-		this.credits.SetActive(true);
+		//this.credits.SetActive(true);
 		this.anthem.Play();
 	}
 			

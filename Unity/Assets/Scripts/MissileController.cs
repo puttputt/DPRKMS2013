@@ -31,6 +31,8 @@ public class MissileController : MonoBehaviour {
 	[SerializeField]
 	private AudioSource rocketSound;
 	[SerializeField]
+	private AudioSource rocketInSpaceSound;
+	[SerializeField]
 	private AudioSource finFallSound;
 	[SerializeField]
 	private AudioSource FixtureReleaseSound;
@@ -212,15 +214,16 @@ public class MissileController : MonoBehaviour {
 					ps.Play();	
 				}
 			}
-		if(this.transform.position.magnitude < 500)
+		if(this.transform.position.magnitude < 450)
 		{
 			
 			if(!this.rocketSound.isPlaying )
 				this.rocketSound.Play();
 		}
-		else
-		{
-			this.rocketSound.Stop();
+		else{
+			this.rocketSound.volume=0.2f;
+			if(!this.rocketSound.isPlaying)
+				this.rocketSound.Play();			
 		}
 		rocketLight.enabled = true;
 	}
@@ -238,6 +241,7 @@ public class MissileController : MonoBehaviour {
 					ps.Stop();	
 				}
 			}
+		this.rocketInSpaceSound.Stop();
 		this.rocketSound.Stop();
 		rocketLight.enabled = false;
 	}

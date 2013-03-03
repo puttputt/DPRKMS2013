@@ -165,7 +165,10 @@ public class Detonator : MonoBehaviour {
 	public bool autoCreateLight = true;
 	public bool autoCreateForce = true;
 	public bool autoCreateHeatwave = false;
-
+	
+	[SerializeField]
+	private AudioSource nukeSound;
+	
 	void Awake() 
 	{
 		FillDefaultMaterials();
@@ -276,7 +279,8 @@ public class Detonator : MonoBehaviour {
 		if(c.collider.tag == "moon")
 		{
 			remove_rocket();
-			BroadcastMessage("contact");		
+			BroadcastMessage("contact");
+			this.nukeSound.Play();
 			UpdateComponents();
 			this.Explode();
 		}
@@ -310,6 +314,7 @@ public class Detonator : MonoBehaviour {
 			remove_rocket();
 			BroadcastMessage("contact");
 			UpdateComponents();
+			//this.nukeSound.Play();
 			this.Explode();
 		}
 	}
