@@ -54,6 +54,7 @@ public class RocketFollow : MonoBehaviour
 
 	void contact(bool frwrks)
 	{
+		this.anthem.Stop();
 		this.nuke.Play();
 		
 		final_rocket_pos = this.transform.parent.transform.position;
