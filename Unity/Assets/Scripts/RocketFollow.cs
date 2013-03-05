@@ -56,6 +56,7 @@ public class RocketFollow : MonoBehaviour
 		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
 		
 		this.credits.SetActive(true);
+		this.theme.Stop();
 		this.nuke.Play();
 		this.anthem.Play();
 	}
