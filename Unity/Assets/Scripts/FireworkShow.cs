@@ -33,7 +33,7 @@ public class FireworkShow : MonoBehaviour {
 			if(Time.time >= nextTime){
 				Quaternion randRot = Quaternion.Euler(Random.Range(-maxAngle,maxAngle),Random.Range(-maxAngle,maxAngle),Random.Range(-maxAngle,maxAngle));
 				Instantiate(firewrks[Random.Range(0,firewrks.Length)], basePos, baseRot*randRot);	
-				nextTime = Time.time + Random.Range(0.2f,2.0f);
+				nextTime = Time.time + Random.Range(0.02f,0.9f);
 			
 			}
 		}
