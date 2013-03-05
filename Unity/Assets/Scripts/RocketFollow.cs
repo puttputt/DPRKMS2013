@@ -34,8 +34,17 @@ public class RocketFollow : MonoBehaviour
 	public AudioSource theme;
 	
 	[SerializeField]
-	private AudioSource nuke;
-
+	public AudioSource nuke;
+	
+	[SerializeField]
+	public AudioSource finFallNoise;
+	
+	[SerializeField]
+	public AudioSource rocketNoise;
+	
+	[SerializeField]
+	public AudioSource fixtureReleaseNoise;
+	
 	void Start ()
 	{
 		shakey=false;
@@ -45,6 +54,8 @@ public class RocketFollow : MonoBehaviour
 
 	void contact(bool frwrks)
 	{
+		this.nuke.Play();
+		
 		final_rocket_pos = this.transform.parent.transform.position;
 		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*4000+final_rocket_pos*2;
 		
@@ -55,12 +66,11 @@ public class RocketFollow : MonoBehaviour
 		if(frwrks){
 			Vector3 firewrkPos = final_rocket_pos.normalized * 500;
 			GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
+			this.credits.SetActive(true);
+			this.anthem.Play();
 		}
-			
-		this.credits.SetActive(true);
-		this.theme.Stop();
-		this.nuke.Play();
-		this.anthem.Play();
+		
+
 	}
 			
 	// Update is called once per frame
@@ -126,6 +136,5 @@ public class RocketFollow : MonoBehaviour
 			yield return 0;
 		}	
 	}
-	
 	
 }

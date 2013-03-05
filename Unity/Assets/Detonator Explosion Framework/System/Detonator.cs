@@ -166,9 +166,6 @@ public class Detonator : MonoBehaviour {
 	public bool autoCreateForce = true;
 	public bool autoCreateHeatwave = false;
 	
-	[SerializeField]
-	private AudioSource nukeSound;
-	
 	void Awake() 
 	{
 		FillDefaultMaterials();
@@ -279,15 +276,16 @@ public class Detonator : MonoBehaviour {
 		if(c.collider.tag == "moon")
 		{
 			remove_rocket();
-			BroadcastMessage("contact",true);
-			
+			this.GetComponentInChildren<RocketFollow>().nuke.Play();
+			BroadcastMessage("contact",true);			
 			UpdateComponents();
 			this.Explode();
 		}
-		else if(c.collider.tag == "silo" || c.collider.tag == "world")
+		else if(c.collider.tag == "silo" || c.collider.tag == "world" || c.collider.tag=="sat" || c.collider.tag=="sat(Clone)")
 		{
 			remove_rocket();
-			this.nukeSound.Play();
+			this.GetComponentInChildren<RocketFollow>().nuke.Play();
+			BroadcastMessage("contact",false);
 			UpdateComponents();
 			this.Explode();
 		}
@@ -313,9 +311,9 @@ public class Detonator : MonoBehaviour {
 		if (explodeOnStart)
 		{
 			remove_rocket();
+			this.GetComponentInChildren<RocketFollow>().nuke.Play();
 			BroadcastMessage("contact",false);
 			UpdateComponents();
-			//this.nukeSound.Play();
 			this.Explode();
 		}
 	}

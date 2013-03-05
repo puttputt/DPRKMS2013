@@ -13,10 +13,8 @@ public class GUIController : MonoBehaviour {
 	}
 	
 	private void OnGUI(){
-		GUI.Label(new Rect(5,5,500,50),"Altitude = " + this.rocket.rigidbody.position.magnitude + " m");
-		GUI.Label(new Rect(5,20,500,50),"H-Velocity = " + new Vector3(rocket.rigidbody.velocity.x, 0, rocket.rigidbody.velocity.z).magnitude + " m/s");
-		GUI.Label(new Rect(5,35,500,50),"V-Velocity = " + new Vector3(0, rocket.rigidbody.velocity.y, 0).magnitude + " m/s");
-		GUI.Label(new Rect(5,50,500,50),"Fuel = " + this.rocket.GetComponent<MissileController>().fuel + " L");
+		GUI.Label(new Rect(5,5,500,50),"Altitude = " + (int)this.rocket.rigidbody.position.magnitude + " m");
+		GUI.Label(new Rect(5,20,500,50),"Fuel = " + (int)this.rocket.GetComponent<MissileController>().fuel + " L");
 	}
 	
 	// Update is called once per frame

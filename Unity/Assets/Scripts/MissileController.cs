@@ -28,20 +28,13 @@ public class MissileController : MonoBehaviour {
 	[SerializeField]
 	private Animation[] fixtures;
 	
-	[SerializeField]
-	private AudioSource rocketSound;
-	[SerializeField]
-	private AudioSource rocketInSpaceSound;
-	[SerializeField]
-	private AudioSource finFallSound;
-	[SerializeField]
-	private AudioSource FixtureReleaseSound;
-	
+	private RocketFollow camScript;
 	private int finsLaunched = 0;
 	private FixedJoint[] joints;
 	public Light rocketLight;
 	private void Start () 
 	{
+		camScript = this.GetComponentInChildren<RocketFollow>();
 		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
 		this.joints = GetComponents<FixedJoint>();
 		isExploded=false;
@@ -164,7 +157,7 @@ public class MissileController : MonoBehaviour {
 		{
 			fixture.animation.Play();
 		}
-		this.FixtureReleaseSound.Play();
+		camScript.finFallNoise.Play ();
 	}
 	
 	private void AccelerateTorque()
@@ -222,13 +215,13 @@ public class MissileController : MonoBehaviour {
 		if(this.transform.position.magnitude < 450)
 		{
 			
-			if(!this.rocketSound.isPlaying )
-				this.rocketSound.Play();
+			if(!this.camScript.rocketNoise.isPlaying)
+				this.camScript.rocketNoise.Play();
 		}
 		else{
-			this.rocketSound.volume=0.2f;
-			if(!this.rocketSound.isPlaying)
-				this.rocketSound.Play();			
+			this.camScript.rocketNoise.volume=0.4f;
+			if(!this.camScript.rocketNoise.isPlaying)
+				this.camScript.rocketNoise.Play();		
 		}
 		rocketLight.enabled = true;
 	}
@@ -246,25 +239,14 @@ public class MissileController : MonoBehaviour {
 					ps.Stop();	
 				}
 			}
-		this.rocketInSpaceSound.Stop();
-		this.rocketSound.Stop();
+		//this.rocketInSpaceSound.Stop();
+		//this.rocketSound.Stop();
 		rocketLight.enabled = false;
 	}
 	
-//	void OnCollisionEnter(Collision collision)
-//	{
-//		foreach(ParticleSystem ps in this.particles)
-//		{
-//			if(ps.name == "Nuke")
-//			{
-//				ps.Play();
-//			}
-//		}
-//	}
-	
 	void LaunchFin(int id, FinLauncher fin)
 	{
-		this.finFallSound.Play();
+		this.camScript.finFallNoise.Play();
 		Destroy(this.joints[id]);
 		fin.launch(this.rigidbody);
 	}
