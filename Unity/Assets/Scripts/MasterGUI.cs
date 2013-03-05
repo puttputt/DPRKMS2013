@@ -46,7 +46,7 @@ public class MasterGUI : MonoBehaviour {
 		{
 			this.menu2.gameObject.SetActive(false);
 			this.rocket.enabled = true;
-			this.rocketFollowScript.theme.Stop();
+			this.rocketFollowScript.theme.volume = 0.1f;
 			this.guiControllerScript.enabled = true;
 			this.state = 2;
 		}
