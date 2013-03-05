@@ -1,22 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-public class MissileController : MonoBehaviour {
+public class MissileController : MonoBehaviour
+{
 	
-	const float torqueStrength=5.0f;
-	const float thrustStrength=40.0f;
-	const float gravConst=-20f;
-
-    private Vector2 mousePosFromCenter;
+	const float torqueStrength = 5.0f;
+	const float thrustStrength = 40.0f;
+	const float gravConst = -20f;
+	private Vector2 mousePosFromCenter;
 	private Vector3 totalTorque;
-	static bool begun=false;
+	static bool begun = false;
 	public float fuel = 380000f;
 	public float gravity;
 	private bool fixtureMove = false;
 	private float engineStartupTime = 2.5f;
 	private bool isExploded;
 	private ParticleSystem[] particles;
-	
+	public int finOneDetachHeight = 25;
+	public int finTwoDetachHeight = 100;
+	public int finThreeDetachHeight = 150;
 	[SerializeField]
 	private GameObject finOne;
 	[SerializeField]
@@ -27,7 +29,6 @@ public class MissileController : MonoBehaviour {
 	private ParticleSystem siloExhaust;
 	[SerializeField]
 	private Animation[] fixtures;
-	
 	[SerializeField]
 	private AudioSource rocketSound;
 	[SerializeField]
@@ -36,218 +37,180 @@ public class MissileController : MonoBehaviour {
 	private AudioSource finFallSound;
 	[SerializeField]
 	private AudioSource FixtureReleaseSound;
-	
 	private int finsLaunched = 0;
 	private FixedJoint[] joints;
 	public Light rocketLight;
-	private void Start () 
+
+	private void Start ()
 	{
-		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
-		this.joints = GetComponents<FixedJoint>();
-		isExploded=false;
+		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem> ();
+		this.joints = GetComponents<FixedJoint> ();
+		isExploded = false;
 		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 	}
 	
-	
-	private void FixedUpdate () 
+	private void FixedUpdate ()
 	{
      	
-        if (Input.GetKey(KeyCode.W) && this.fuel > 0)
-        {
-			this.engineStartupTime -= Time.deltaTime;
+		if (Input.GetKey (KeyCode.W) && this.fuel > 0) {
+			if (this.engineStartupTime > 0)
+				this.engineStartupTime -= Time.deltaTime;
 			
 			
-			if(this.fuel < 0)
-			{
+			if (this.fuel < 0) {
 				this.fuel = 0;
 			}
-			this.EnginePlay();
+			this.EnginePlay ();
 			
-			if(this.transform.position.magnitude > 100)
-			{
-				this.siloExhaust.Stop();	
+			if (this.transform.position.magnitude > 100) {
+				this.siloExhaust.Stop ();	
+			} else {
+				this.siloExhaust.Play ();
 			}
-			else
-			{
-				this.siloExhaust.Play();
-			}
-			if(this.engineStartupTime <= 0)
-			{
-				if(this.fixtureMove == false)
-				{
+			if (this.engineStartupTime <= 0) {
+				if (this.fixtureMove == false) {
 					this.fixtureMove = true;
-					this.openFixtures();
+					this.openFixtures ();
 				}
-				begun=true;
-				GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=true;
-				this.rigidbody.AddForce(this.transform.up * thrustStrength, ForceMode.Acceleration);
+				begun = true;
+				GameObject.Find ("Main Camera").GetComponent<RocketFollow> ().shakey = true;
+				this.rigidbody.AddForce (this.transform.up * thrustStrength, ForceMode.Acceleration);
 				this.fuel -= 52.21f;
 			}
 			
 			
-        }
-        else if (this.fuel <=0 && !isExploded)
-		{
-			isExploded=true;
-			this.BroadcastMessage("outOfFuel");		
-		}
-		else
-		{
-			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=false;
-			this.EngineStop();	
-			this.siloExhaust.Stop();
+		} else if (this.fuel <= 0 && !isExploded) {
+			isExploded = true;
+			this.BroadcastMessage ("outOfFuel");
+		} else {
+			GameObject.Find ("Main Camera").GetComponent<RocketFollow> ().shakey = false;
+			this.EngineStop ();	
+			this.siloExhaust.Stop ();
 		}
 		
-		Vector3 torqueDir = new Vector3();
-		if(Input.GetKey(KeyCode.LeftArrow))
-		{
-			torqueDir.x=1;		
-		}
-		else if(Input.GetKey(KeyCode.RightArrow)) 
-		{
-			torqueDir.x=-1;
-		}
-		else 
-		{
-			torqueDir.x=0;
-		}
+		if (this.engineStartupTime < 0) {
+			Vector3 torqueDir = new Vector3 ();
+			if (Input.GetKey (KeyCode.LeftArrow)) {
+				torqueDir.x = 1;		
+			} else if (Input.GetKey (KeyCode.RightArrow)) {
+				torqueDir.x = -1;
+			} else {
+				torqueDir.x = 0;
+			}
 			
-		if(Input.GetKey(KeyCode.UpArrow)) 
-		{
-			torqueDir.z=-1;			
-		}
-		else if(Input.GetKey(KeyCode.DownArrow)) 
-		{
-			torqueDir.z=1;			
-		}
-		else
-		{
-			torqueDir.z=0;
-		}
-		
-		if(this.finsLaunched == 1)
-		{
-			torqueDir.x -= 0.2f;
-		}
-		else if(this.finsLaunched == 2)
-		{
-			torqueDir.z -= 0.2f;	
+			if (Input.GetKey (KeyCode.UpArrow)) {
+				torqueDir.z = -1;			
+			} else if (Input.GetKey (KeyCode.DownArrow)) {
+				torqueDir.z = 1;			
+			} else {
+				torqueDir.z = 0;
+			}
+				
+			if (this.finsLaunched == 1) {
+				torqueDir.x -= 0.2f;
+			} else if (this.finsLaunched == 3) {
+				torqueDir.z -= 0.2f;	
+			}
+			
+			this.totalTorque += torqueDir;
+
 		}
 		
-		this.totalTorque += torqueDir;
-		this.AccelerateTorque();
+		this.AccelerateTorque ();
 		
-		if(begun)
-		{
+		if (begun) {
 			
 			Vector3 rocket_pos = this.transform.position;
-			if(rocket_pos.magnitude < 450)
+			if (rocket_pos.magnitude < 450)
 				this.gravity = gravConst;
 			else if (rocket_pos.magnitude > 450 && rocket_pos.magnitude < 2950)				
-				this.gravity = gravConst * (2950-rocket_pos.magnitude)/2950;
+				this.gravity = gravConst * (2950 - rocket_pos.magnitude) / 2950;
 			else
 				this.gravity = 0;
 			
-			Vector3 grav_dir = new Vector3(0.0f, 0.0f, 0.0f);
-			if(rocket_pos.magnitude !=0)
-				grav_dir = this.gravity*rocket_pos.normalized;
+			Vector3 grav_dir = new Vector3 (0.0f, 0.0f, 0.0f);
+			if (rocket_pos.magnitude != 0)
+				grav_dir = this.gravity * rocket_pos.normalized;
 
-			rigidbody.AddForce(grav_dir, ForceMode.Acceleration);
+			rigidbody.AddForce (grav_dir, ForceMode.Acceleration);
 		}
 		
-		DoThingsOnDistance();
+		DoThingsOnDistance ();
 	}
 	
-	private void openFixtures()
+	private void openFixtures ()
 	{
-		foreach(Animation fixture in this.fixtures)
-		{
-			fixture.animation.Play();
+		foreach (Animation fixture in this.fixtures) {
+			fixture.animation.Play ();
 		}
-		this.FixtureReleaseSound.Play();
+		this.FixtureReleaseSound.Play ();
 	}
 	
-	private void AccelerateTorque()
+	private void AccelerateTorque ()
 	{
-		this.rigidbody.AddRelativeTorque(this.totalTorque * torqueStrength, ForceMode.Force);
+		this.rigidbody.AddRelativeTorque (this.totalTorque * torqueStrength, ForceMode.Force);
 	}
 
-    private void CenterMousePosition()
-    {
-        Screen.lockCursor = true;
-        Screen.lockCursor = false;
-    }
+	private void CenterMousePosition ()
+	{
+		Screen.lockCursor = true;
+		Screen.lockCursor = false;
+	}
 	
-	private void DoThingsOnDistance()
+	private void DoThingsOnDistance ()
 	{
 		float distance = this.transform.position.magnitude;
 		//Debug.Log(distance);
-		if(distance > 25 && this.finsLaunched == 0)
-		{
-			this.LaunchFin(0, this.finOne.GetComponent<FinLauncher>());
+		if (distance > finOneDetachHeight && this.finsLaunched == 0) {
+			this.LaunchFin (0, this.finOne.GetComponent<FinLauncher> ());
 			this.finsLaunched = 1;
-		}
-		else if(distance > 100 && this.finsLaunched == 1)
-		{
-			this.LaunchFin(2, this.finThree.GetComponent<FinLauncher>());
+		} else if (distance > finTwoDetachHeight && this.finsLaunched == 1) {
+			this.LaunchFin (2, this.finThree.GetComponent<FinLauncher> ());
 			this.finsLaunched = 2;
-		}
-		else if (distance > 150 && this.finsLaunched == 2)
-		{
-			this.LaunchFin(1, this.finTwo.GetComponent<FinLauncher>());
+		} else if (distance > finThreeDetachHeight && this.finsLaunched == 2) {
+			this.LaunchFin (1, this.finTwo.GetComponent<FinLauncher> ());
 			this.finsLaunched = 3;
 		}
 		
 	}
-
 	
-	public float GetDistance()
+	public float GetDistance ()
 	{
-		return Vector3.Distance(this.transform.position, new Vector3(0,0,0));
+		return Vector3.Distance (this.transform.position, new Vector3 (0, 0, 0));
 	}
 		
-	public void EnginePlay()
+	public void EnginePlay ()
 	{
-		foreach(ParticleSystem ps in this.particles)
-			{
-				if(ps.name == "EngineFire")
-				{
-					ps.Play();
-				}
-				else if (ps.name == "Exhaust")
-				{
-					ps.Play();	
-				}
+		foreach (ParticleSystem ps in this.particles) {
+			if (ps.name == "EngineFire") {
+				ps.Play ();
+			} else if (ps.name == "Exhaust") {
+				ps.Play ();	
 			}
-		if(this.transform.position.magnitude < 450)
-		{
-			
-			if(!this.rocketSound.isPlaying )
-				this.rocketSound.Play();
 		}
-		else{
-			this.rocketSound.volume=0.2f;
-			if(!this.rocketSound.isPlaying)
-				this.rocketSound.Play();			
+		if (this.transform.position.magnitude < 450) {
+			
+			if (!this.rocketSound.isPlaying)
+				this.rocketSound.Play ();
+		} else {
+			this.rocketSound.volume = 0.2f;
+			if (!this.rocketSound.isPlaying)
+				this.rocketSound.Play ();			
 		}
 		rocketLight.enabled = true;
 	}
 	
-	public void EngineStop()
+	public void EngineStop ()
 	{
-		foreach(ParticleSystem ps in this.particles)
-			{
-				if(ps.name == "EngineFire")
-				{
-					ps.Stop();
-				}
-				else if (ps.name == "Exhaust")
-				{
-					ps.Stop();	
-				}
+		foreach (ParticleSystem ps in this.particles) {
+			if (ps.name == "EngineFire") {
+				ps.Stop ();
+			} else if (ps.name == "Exhaust") {
+				ps.Stop ();	
 			}
-		this.rocketInSpaceSound.Stop();
-		this.rocketSound.Stop();
+		}
+		this.rocketInSpaceSound.Stop ();
+		this.rocketSound.Stop ();
 		rocketLight.enabled = false;
 	}
 	
@@ -262,11 +225,11 @@ public class MissileController : MonoBehaviour {
 //		}
 //	}
 	
-	void LaunchFin(int id, FinLauncher fin)
+	void LaunchFin (int id, FinLauncher fin)
 	{
-		this.finFallSound.Play();
-		Destroy(this.joints[id]);
-		fin.launch(this.rigidbody);
+		this.finFallSound.Play ();
+		Destroy (this.joints [id]);
+		fin.launch (this.rigidbody);
 	}
 	
 }

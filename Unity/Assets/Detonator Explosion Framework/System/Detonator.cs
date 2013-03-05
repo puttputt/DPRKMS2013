@@ -275,7 +275,7 @@ public class Detonator : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision c)
 	{
-		Debug.Log(c.collider.tag);
+		Debug.Log("Collision with " + c.collider.tag);
 		if(c.collider.tag == "moon")
 		{
 			remove_rocket();
@@ -285,18 +285,20 @@ public class Detonator : MonoBehaviour {
 			this.Explode();
 		}
 		else if(c.collider.tag == "silo" || c.collider.tag == "world")
-		{
+		{			
 			remove_rocket();
-			this.nukeSound.Play();
+			BroadcastMessage("contact",false);
+			
 			UpdateComponents();
 			this.Explode();
+			
 		}
 		
 	}
 	
 	void OnTriggerEnter(Collider c)
 	{
-		Debug.Log(c.tag);	
+		Debug.Log("Collision with trigger: " + c.tag);	
 	}
 	
 	void remove_rocket(){
