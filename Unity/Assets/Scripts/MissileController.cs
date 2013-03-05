@@ -46,6 +46,8 @@ public class MissileController : MonoBehaviour
 		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem> ();
 		this.joints = GetComponents<FixedJoint> ();
 		isExploded = false;
+		engineStartupTime = 2.5f;
+		begun = false;
 		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 	}
 	
@@ -119,7 +121,6 @@ public class MissileController : MonoBehaviour
 		this.AccelerateTorque ();
 		
 		if (begun) {
-			
 			Vector3 rocket_pos = this.transform.position;
 			if (rocket_pos.magnitude < 450)
 				this.gravity = gravConst;

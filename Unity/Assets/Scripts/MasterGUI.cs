@@ -40,7 +40,6 @@ public class MasterGUI : MonoBehaviour
 	void Update ()
 	{
 		if (this.state == 666 & timerToShowYourFailure > 0) {
-			Debug.Log (timerToShowYourFailure);
 			this.timerToShowYourFailure--;
 			if (timerToShowYourFailure == 0) {
 				this.retryMenu.gameObject.SetActive (true);
