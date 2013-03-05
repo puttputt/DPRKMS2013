@@ -43,7 +43,7 @@ public class RocketFollow : MonoBehaviour
 	}
 	
 
-	void contact()
+	void contact(bool frwrks)
 	{
 		final_rocket_pos = this.transform.parent.transform.position;
 		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*4000+final_rocket_pos*2;
@@ -52,9 +52,11 @@ public class RocketFollow : MonoBehaviour
 		Debug.Log("final cam = " + final_cam_pos);
 		exploded=true;
 		
-		Vector3 firewrkPos = final_rocket_pos.normalized * 500;
-		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
-		
+		if(frwrks){
+			Vector3 firewrkPos = final_rocket_pos.normalized * 500;
+			GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
+		}
+			
 		this.credits.SetActive(true);
 		this.theme.Stop();
 		this.nuke.Play();

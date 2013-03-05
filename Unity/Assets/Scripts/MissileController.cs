@@ -14,7 +14,7 @@ public class MissileController : MonoBehaviour {
 	public float gravity;
 	private bool fixtureMove = false;
 	private float engineStartupTime = 2.5f;
-	
+	private bool isExploded;
 	private ParticleSystem[] particles;
 	
 	[SerializeField]
@@ -44,6 +44,7 @@ public class MissileController : MonoBehaviour {
 	{
 		this.particles = this.gameObject.GetComponentsInChildren<ParticleSystem>();
 		this.joints = GetComponents<FixedJoint>();
+		isExploded=false;
 		//rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
 	}
 	
@@ -85,7 +86,11 @@ public class MissileController : MonoBehaviour {
 			
 			
         }
-        
+        else if (this.fuel <=0 && !isExploded)
+		{
+			isExploded=true;
+			this.BroadcastMessage("outOfFuel");		
+		}
 		else
 		{
 			GameObject.Find("Main Camera").GetComponent<RocketFollow>().shakey=false;

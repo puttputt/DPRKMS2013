@@ -279,7 +279,7 @@ public class Detonator : MonoBehaviour {
 		if(c.collider.tag == "moon")
 		{
 			remove_rocket();
-			BroadcastMessage("contact");
+			BroadcastMessage("contact",true);
 			
 			UpdateComponents();
 			this.Explode();
@@ -313,7 +313,7 @@ public class Detonator : MonoBehaviour {
 		if (explodeOnStart)
 		{
 			remove_rocket();
-			BroadcastMessage("contact");
+			BroadcastMessage("contact",false);
 			UpdateComponents();
 			//this.nukeSound.Play();
 			this.Explode();
@@ -383,6 +383,14 @@ public class Detonator : MonoBehaviour {
 		color = _baseColor;
 		duration = _baseDuration;
 		FillDefaultMaterials();
+	}
+	
+	public void outOfFuel(){
+		remove_rocket();
+		BroadcastMessage("contact",false);
+		
+		UpdateComponents();
+		this.Explode();
 	}
 	
 
