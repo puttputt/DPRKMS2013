@@ -31,7 +31,7 @@ public class RocketFollow : MonoBehaviour
 	private AudioSource anthem;
 	
 	[SerializeField]
-	private AudioSource theme;
+	public AudioSource theme;
 	
 	[SerializeField]
 	private AudioSource nuke;

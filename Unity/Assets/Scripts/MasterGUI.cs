@@ -16,15 +16,21 @@ public class MasterGUI : MonoBehaviour {
 	[SerializeField]
 	private MissileController rocket;
 	
+	private RocketFollow rocketFollowScript;
+	private GUIController guiControllerScript;
 	private int state;
 	
 	void Awake () 
 	{
+		this.rocketFollowScript = this.mainCamera.GetComponent<RocketFollow>();
+		this.guiControllerScript = this.mainCamera.GetComponent<GUIController>();
+		
 		this.state = 0;
 		this.menu1.gameObject.SetActive(true);
 		this.menu2.gameObject.SetActive(false);
 		this.rocket.enabled = false;
-		
+		this.rocketFollowScript.theme.Play();
+		this.guiControllerScript.enabled = false;
 	}
 	
 
@@ -40,6 +46,8 @@ public class MasterGUI : MonoBehaviour {
 		{
 			this.menu2.gameObject.SetActive(false);
 			this.rocket.enabled = true;
+			this.rocketFollowScript.theme.Stop();
+			this.guiControllerScript.enabled = true;
 			this.state = 2;
 		}
 		
