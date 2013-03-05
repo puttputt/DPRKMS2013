@@ -29,6 +29,12 @@ public class RocketFollow : MonoBehaviour
 	
 	[SerializeField]
 	private AudioSource anthem;
+	
+	[SerializeField]
+	private AudioSource theme;
+	
+	[SerializeField]
+	private AudioSource nuke;
 
 	void Start ()
 	{
@@ -37,7 +43,8 @@ public class RocketFollow : MonoBehaviour
 	}
 	
 
-	void contact(){
+	void contact()
+	{
 		final_rocket_pos = this.transform.parent.transform.position;
 		final_cam_pos = Vector3.Cross(final_rocket_pos.normalized, Random.onUnitSphere)*4000+final_rocket_pos*2;
 		
@@ -48,7 +55,8 @@ public class RocketFollow : MonoBehaviour
 		Vector3 firewrkPos = final_rocket_pos.normalized * 500;
 		GameObject.Find("Fireworks").BroadcastMessage("startFireworks",firewrkPos);
 		
-		//this.credits.SetActive(true);
+		this.credits.SetActive(true);
+		this.nuke.Play();
 		this.anthem.Play();
 	}
 			

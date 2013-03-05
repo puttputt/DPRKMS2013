@@ -280,13 +280,14 @@ public class Detonator : MonoBehaviour {
 		{
 			remove_rocket();
 			BroadcastMessage("contact");
-			this.nukeSound.Play();
+			
 			UpdateComponents();
 			this.Explode();
 		}
 		else if(c.collider.tag == "silo" || c.collider.tag == "world")
 		{
 			remove_rocket();
+			this.nukeSound.Play();
 			UpdateComponents();
 			this.Explode();
 		}
