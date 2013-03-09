@@ -329,7 +329,7 @@ public class Detonator : MonoBehaviour {
 		{
 			if (_lastExplosionTime + destroyTime <= Time.time)
 			{
-				Destroy(gameObject);
+				Application.LoadLevel(Application.loadedLevel);
 			}
 		}
 	}

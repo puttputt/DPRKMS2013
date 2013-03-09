@@ -100,9 +100,9 @@ public class MissileController : MonoBehaviour
 				torqueDir.x = 0;
 			}
 			
-			if (Input.GetKey (KeyCode.UpArrow)) {
+			if (Input.GetKey (KeyCode.UpArrow) && this.transform.position.magnitude > 450) {
 				torqueDir.z = -1;			
-			} else if (Input.GetKey (KeyCode.DownArrow)) {
+			} else if (Input.GetKey (KeyCode.DownArrow)&& this.transform.position.magnitude > 450) {
 				torqueDir.z = 1;			
 			} else {
 				torqueDir.z = 0;
@@ -122,8 +122,10 @@ public class MissileController : MonoBehaviour
 		
 		if (begun) {
 			Vector3 rocket_pos = this.transform.position;
-			if (rocket_pos.magnitude < 450)
+			if (rocket_pos.magnitude < 450){
+				this.transform.rotation = Quaternion.Euler(this.transform.rotation.eulerAngles.x, this.transform.rotation.eulerAngles.y, 0);
 				this.gravity = gravConst;
+			}
 			else if (rocket_pos.magnitude > 450 && rocket_pos.magnitude < 2950)				
 				this.gravity = gravConst * (2950 - rocket_pos.magnitude) / 2950;
 			else
